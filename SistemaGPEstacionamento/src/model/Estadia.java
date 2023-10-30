@@ -1,22 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-/**
- *
- * @author Arsenio-JC
- */
+@Entity
+@Table(name = "Estadia")
 public class Estadia {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDate data; 
     private LocalDateTime horaEntrada;
     private LocalDateTime horaSaida;
     private Veiculo veiculo;
+    private boolean estado;
+    
+    public Estadia(){
+        this.estado = true;
+    }
 
     public int getId() {
         return id;
@@ -57,6 +65,15 @@ public class Estadia {
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
     
     
 }

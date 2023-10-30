@@ -7,20 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "Proprietario")
-public class Proprietario {
+@Table(name = "Usuario")
+public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String nome;
-    private String contacto;
-    private String endereco;
+    private String nomeUsuario;
+    private String senha;
     private boolean estado;
-
-    public Proprietario(){
+    
+    public Usuario(){
         this.estado = true;
     }
+
     public int getId() {
         return id;
     }
@@ -29,28 +29,20 @@ public class Proprietario {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
-    public String getContacto() {
-        return contacto;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setContacto(String contacto) {
-        this.contacto = contacto;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public boolean isEstado() {

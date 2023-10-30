@@ -1,17 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
-/**
- *
- * @author Arsenio-JC
- */
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table (name = "Vaga")
 public class Vaga {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String endereco;
+    private boolean estado;
 
+    public Vaga(){
+        this.estado = true;
+    }
     public int getId() {
         return id;
     }
@@ -26,6 +34,14 @@ public class Vaga {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
     
     
