@@ -17,7 +17,7 @@ public class Proprietario {
     private String contacto;
     private String endereco;
     private boolean estado;
-
+    
     public Proprietario(){
         this.estado = true;
     }

@@ -1,10 +1,13 @@
 
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -18,6 +21,7 @@ public class Veiculo {
     private String marca;
     private String modelo;
     private String matricula;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Proprietario proprietario;
     private boolean estado;
     

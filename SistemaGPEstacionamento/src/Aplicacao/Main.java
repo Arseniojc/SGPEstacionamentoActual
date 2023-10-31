@@ -13,31 +13,35 @@ import model.Veiculo;
 
 public class Main {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         
-        Usuario u = new Usuario();
+//        Usuario u = new Usuario();
+//        UsuarioDao dao = new UsuarioDao();
+//        u.setNomeUsuario("felix");
+//        u.setSenha("123");
+//       u.setId(1);
+//        
+////        dao.actualizar(u);
+//        System.out.println(dao.listar());
+//        dao.deletar(1);
+//        System.out.println(dao.listar()); 
+
+        VeiculoDao dao = new VeiculoDao();
+        ProprientarioDao pdao = new ProprientarioDao();
+        
         Veiculo v = new Veiculo();
-        Vaga vaga = new Vaga();
-        Estadia e = new Estadia();
         Proprietario p = new Proprietario();
         
-        UsuarioDao daoU = new UsuarioDao();
-        VeiculoDao daoV = new VeiculoDao();
-        VagaDao daoVaga = new VagaDao();
-        EstadiaDao daoE = new EstadiaDao();
-        ProprientarioDao daoP = new ProprientarioDao();
-        
-        p.setNome("Wilton");
-        p.setContacto("888888");
-        p.setEndereco("Matola,Mathlemele");
-        
-        v.setMarca("Toyota");
-        v.setModelo("Corolla");
-        v.setMatricula("ADM-123");
+        p.setNome("felix");
+        p.setContacto("87655");
+        p.setEndereco("utreywt");
+        p.setId(1);
+//        
+        v.setMarca("bmw");
+        v.setMatricula("123456");
+        v.setModelo("m4");
         v.setProprietario(p);
         
-        //daoP.salvar(p);
-        daoV.salvar(v);
-        
+        dao.inserir(v);
     }
 }

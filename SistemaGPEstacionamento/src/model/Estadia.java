@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import jdk.jfr.DataAmount;
 
 @Entity
 @Table(name = "Estadia")
@@ -17,8 +21,11 @@ public class Estadia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDate data; 
-    private LocalDateTime horaEntrada;
+    @Temporal(TemporalType.TIME)
+    private LocalDateTime horaEntrada = LocalDateTime.now();
+    @Temporal(TemporalType.TIME)
     private LocalDateTime horaSaida;
+    @ManyToMany
     private Veiculo veiculo;
     private boolean estado;
     
