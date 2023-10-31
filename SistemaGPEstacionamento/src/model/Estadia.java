@@ -30,13 +30,6 @@ public class Estadia {
     private Veiculo veiculo;
     @ManyToOne(cascade = CascadeType.ALL)
     private Vaga vaga;
-    private boolean estado;
-    
-    public Estadia(){
-        this.estado = true;
-        this.data = LocalDate.now();
-                
-    }
 
     public int getId() {
         return id;
@@ -79,14 +72,6 @@ public class Estadia {
         this.veiculo = veiculo;
     }
 
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
     public Vaga getVaga() {
         return vaga;
     }
@@ -95,6 +80,14 @@ public class Estadia {
         this.vaga = vaga;
     }
     
+    public void registrarEntrada(Veiculo veiculo){
+        this.setVeiculo(veiculo);
+        this.data = LocalDate.now();
+        this.setHoraEntrada(new Date());
+    }
     
+    public void registrarSaida() {
+        this.setHoraSaida(new Date());
+    }
     
 }

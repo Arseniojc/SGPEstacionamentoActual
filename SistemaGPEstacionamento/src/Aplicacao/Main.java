@@ -33,14 +33,16 @@ public class Main {
         v.setProprietario(p);
         v.setMatricula("ADM-123");
         
+        vg.setId(1);
         vg.setEndereco("aaaaaaa");
-        
-        e.setVeiculo(v);
-        e.setHoraEntrada(new Date());
-        e.setHoraSaida(new Date());
+
         e.setVaga(vg);
         
-        dao.inserir(e);
+//            e.registrarEntrada(v);
+            //e.registrarSaida();
+        
+        dao.registrarSaida(4);
+        
         
     }
 }

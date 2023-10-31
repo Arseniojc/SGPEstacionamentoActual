@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -69,18 +70,19 @@ public class EstadiaDao {
         }
         return estadia;
     }
-    
-    public void deletar(int id) throws Exception{
+
+        public void registrarSaida(int id) throws Exception{
         try {
             em.getTransaction().begin();
             Estadia estadia = em.find(Estadia.class, id);
-            estadia.setEstado(false);
+            estadia.setHoraSaida(new Date());
             em.merge(estadia);
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new Exception("Erro na eliminacao do veiculo");
+            throw new Exception("Erro na eliminacao do Vaga");
         } finally {
             em.close();
         }
     }
+
 }
