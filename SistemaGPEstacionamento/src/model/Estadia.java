@@ -3,15 +3,16 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import jdk.jfr.DataAmount;
 
 @Entity
 @Table(name = "Estadia")
@@ -22,15 +23,19 @@ public class Estadia {
     private int id;
     private LocalDate data; 
     @Temporal(TemporalType.TIME)
-    private LocalDateTime horaEntrada = LocalDateTime.now();
+    private Date horaEntrada;
     @Temporal(TemporalType.TIME)
-    private LocalDateTime horaSaida;
-    @ManyToMany
+    private Date horaSaida;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Veiculo veiculo;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Vaga vaga;
     private boolean estado;
     
     public Estadia(){
         this.estado = true;
+        this.data = LocalDate.now();
+                
     }
 
     public int getId() {
@@ -49,21 +54,22 @@ public class Estadia {
         this.data = data;
     }
 
-    public LocalDateTime getHoraEntrada() {
+    public Date getHoraEntrada() {
         return horaEntrada;
     }
 
-    public void setHoraEntrada(LocalDateTime horaEntrada) {
+    public void setHoraEntrada(Date horaEntrada) {
         this.horaEntrada = horaEntrada;
     }
 
-    public LocalDateTime getHoraSaida() {
+    public Date getHoraSaida() {
         return horaSaida;
     }
 
-    public void setHoraSaida(LocalDateTime horaSaida) {
+    public void setHoraSaida(Date horaSaida) {
         this.horaSaida = horaSaida;
     }
+
 
     public Veiculo getVeiculo() {
         return veiculo;
@@ -79,6 +85,14 @@ public class Estadia {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public Vaga getVaga() {
+        return vaga;
+    }
+
+    public void setVaga(Vaga vaga) {
+        this.vaga = vaga;
     }
     
     

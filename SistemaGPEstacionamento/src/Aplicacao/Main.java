@@ -5,6 +5,8 @@ import dao.ProprientarioDao;
 import dao.UsuarioDao;
 import dao.VagaDao;
 import dao.VeiculoDao;
+import java.time.LocalDateTime;
+import java.util.Date;
 import model.Estadia;
 import model.Proprietario;
 import model.Usuario;
@@ -15,33 +17,30 @@ public class Main {
     
     public static void main(String[] args) throws Exception{
         
-//        Usuario u = new Usuario();
-//        UsuarioDao dao = new UsuarioDao();
-//        u.setNomeUsuario("felix");
-//        u.setSenha("123");
-//       u.setId(1);
-//        
-////        dao.actualizar(u);
-//        System.out.println(dao.listar());
-//        dao.deletar(1);
-//        System.out.println(dao.listar()); 
-
-        VeiculoDao dao = new VeiculoDao();
-        ProprientarioDao pdao = new ProprientarioDao();
-        
         Veiculo v = new Veiculo();
+        Estadia e = new Estadia();
+        Vaga vg = new Vaga();
         Proprietario p = new Proprietario();
+        EstadiaDao dao = new EstadiaDao();
         
-        p.setNome("felix");
-        p.setContacto("87655");
-        p.setEndereco("utreywt");
-        p.setId(1);
-//        
-        v.setMarca("bmw");
-        v.setMatricula("123456");
-        v.setModelo("m4");
+        
+        p.setNome("Arsenio");
+        p.setEndereco("Matola");
+        p.setContacto("88888");
+       
+        v.setMarca("Toyota");
+        v.setModelo("Corollla");
         v.setProprietario(p);
+        v.setMatricula("ADM-123");
         
-        dao.inserir(v);
+        vg.setEndereco("aaaaaaa");
+        
+        e.setVeiculo(v);
+        e.setHoraEntrada(new Date());
+        e.setHoraSaida(new Date());
+        e.setVaga(vg);
+        
+        dao.inserir(e);
+        
     }
 }
