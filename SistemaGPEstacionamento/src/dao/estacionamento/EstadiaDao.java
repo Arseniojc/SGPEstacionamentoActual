@@ -23,9 +23,6 @@ public class EstadiaDao {
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
-        } finally {
-            em.close();
-            emf.close();
         }
     }
     
@@ -44,9 +41,6 @@ public class EstadiaDao {
             System.out.println("Dados Actualizados com sucesso.");
         } catch (Exception e) {
             throw new Exception("Erro na actualizacao de dados");
-        } finally {
-            em.close();
-            emf.close();
         }
     }
     
@@ -57,9 +51,6 @@ public class EstadiaDao {
             estadia = em.find(Estadia.class, id);
         } catch (Exception e) {
             throw new Exception("Nao foi localizado um estadia com o ID informado");
-        } finally {
-            em.close();
-            emf.close();
         }
         
         return estadia;

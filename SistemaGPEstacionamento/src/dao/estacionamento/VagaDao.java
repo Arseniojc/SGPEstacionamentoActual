@@ -28,9 +28,6 @@ public class VagaDao {
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
-        } finally {
-            em.close();
-            emf.close();
         }
     }
     
@@ -49,9 +46,6 @@ public class VagaDao {
             System.out.println("Dados Actualizados com sucesso.");
         } catch (Exception e) {
             throw new Exception("Erro na actualizacao de dados");
-        } finally {
-            em.close();
-            emf.close();
         }
     }
     
@@ -62,9 +56,6 @@ public class VagaDao {
             vaga = em.find(Vaga.class, id);
         } catch (Exception e) {
             throw new Exception("Nao foi localizado um vaga com o ID informado");
-        } finally {
-            em.close();
-            emf.close();
         }
         
         return vaga;
@@ -80,9 +71,6 @@ public class VagaDao {
         em.getTransaction().begin();
         
         List<Vaga> vagasDisponiveis = em.createQuery(criteriaQuery).getResultList();
-        
-        em.close();
-        emf.close();
         
         return vagasDisponiveis;
     }

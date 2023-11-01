@@ -31,9 +31,6 @@ public class ProprientarioDao {
             System.out.println("Dados Actualizados com sucesso.");
         } catch (Exception e) {
             throw new Exception("Erro na actualizacao de dados");
-        } finally {
-            em.close();
-            emf.close();
         }
     }
     
@@ -44,9 +41,6 @@ public class ProprientarioDao {
             proprietario = em.find(Proprietario.class, id);
         } catch (Exception e) {
             throw new Exception("Nao foi localizado um Proprietario com o ID informado");
-        } finally {
-            em.close();
-            emf.close();
         }
         
         return proprietario;

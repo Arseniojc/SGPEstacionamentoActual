@@ -3,6 +3,7 @@ package dao.usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -77,13 +78,19 @@ public class UsuarioDao {
                         criteriaBuilder.equal(root.get("nome"), nome)
         );
         
-        em.getTransaction().begin();
+        Usuario usuario = null;
         
-        Usuario usuario = em.createQuery(criteriaQuery).getSingleResult();
-        
-        em.close();
-        emf.close();
-        
+        try {
+            em.getTransaction().begin();
+            usuario = em.createQuery(criteriaQuery).getSingleResult();
+            em.getTransaction().commit();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+            emf.close();
+        }
+
         return usuario;
     }
     
