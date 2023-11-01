@@ -5,6 +5,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import model.estacionamento.Proprietario;
 
 public class ProprientarioDao {
@@ -44,5 +47,22 @@ public class ProprientarioDao {
         }
         
         return proprietario;
+    }
+    
+    public List<Proprietario> pesquisarComBaseNoNome(String nome) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Proprietario> criteriaQuery = criteriaBuilder.createQuery(Proprietario.class);
+        Root<Proprietario> root = criteriaQuery.from(Proprietario.class);
+        
+        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("nome"), nome));
+        
+        em.getTransaction().begin();
+        
+        List<Proprietario> proprietarios = em.createQuery(criteriaQuery).getResultList();
+        
+        em.close();
+        emf.close();
+        
+        return proprietarios;
     }
 }
