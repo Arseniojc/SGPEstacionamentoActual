@@ -49,19 +49,22 @@ public class VagaDao {
         }
     }
     
-    public Vaga pesquisar(int id) throws Exception{
+    public Vaga pesquisarComBaseNoEndereco(String endereco) throws Exception{
         Vaga vaga = null;
         
         try {
-            vaga = em.find(Vaga.class, id);
+            vaga = em.find(Vaga.class, endereco);
         } catch (Exception e) {
-            throw new Exception("Nao foi localizado um vaga com o ID informado");
+            throw new Exception("Nao foi localizado um vaga com o endereco informado");
+        } finally {
+            em.close();
+            emf.close();
         }
         
         return vaga;
     }
     
-    public List<Vaga> pesquisarPorDisponibilidade(Disponibilidade disponibilidade) {
+    public List<Vaga> pesquisarComBaseNaDisponibilidade(Disponibilidade disponibilidade) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Vaga> criteriaQuery = criteriaBuilder.createQuery(Vaga.class);
         Root<Vaga> root = criteriaQuery.from(Vaga.class);
