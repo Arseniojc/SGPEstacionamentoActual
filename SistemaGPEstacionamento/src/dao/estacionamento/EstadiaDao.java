@@ -1,12 +1,11 @@
-package dao;
+package dao.estacionamento;
 
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import model.Estadia;
+import model.estacionamento.Estadia;
 
 public class EstadiaDao {
     
@@ -38,14 +37,7 @@ public class EstadiaDao {
         return query.getResultList();
     }
     
-    public void listarEstadia(){
-        
-        for(Estadia estadias: listar()){
-            System.out.println("Marca: " + estadias.getVeiculo() );
-        }
-    }
-    
-    public void actualizar(Estadia estadia) throws Exception{
+    public void actualizar(Estadia estadia) throws Exception {
         try {
             em.getTransaction().begin();
             em.merge(estadia);
@@ -55,11 +47,11 @@ public class EstadiaDao {
             throw new Exception("Erro na actualizacao de dados");
         } finally {
             em.close();
+            emf.close();
         }
     }
     
     public Estadia pesquisar(int id) throws Exception{
-        
         Estadia estadia = null;
         
         try {
@@ -67,22 +59,10 @@ public class EstadiaDao {
         } catch (Exception e) {
             throw new Exception("Nao foi localizado um estadia com o ID informado");
         } finally {
+            em.close();
+            emf.close();
         }
+        
         return estadia;
     }
-
-        public void registrarSaida(int id) throws Exception{
-        try {
-            em.getTransaction().begin();
-            Estadia estadia = em.find(Estadia.class, id);
-            estadia.setHoraSaida(new Date());
-            em.merge(estadia);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new Exception("Erro na eliminacao do Vaga");
-        } finally {
-            em.close();
-        }
-    }
-
 }

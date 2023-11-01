@@ -1,48 +1,61 @@
 package Aplicacao;
 
-import dao.EstadiaDao;
-import dao.ProprientarioDao;
-import dao.UsuarioDao;
-import dao.VagaDao;
-import dao.VeiculoDao;
+import dao.estacionamento.EstadiaDao;
+import dao.estacionamento.ProprientarioDao;
+import dao.usuario.UsuarioDao;
+import dao.estacionamento.VagaDao;
+import dao.estacionamento.VeiculoDao;
 import java.time.LocalDateTime;
 import java.util.Date;
-import model.Estadia;
-import model.Proprietario;
-import model.Usuario;
-import model.Vaga;
-import model.Veiculo;
+import java.util.List;
+import model.estacionamento.Disponibilidade;
+import model.estacionamento.Estadia;
+import model.estacionamento.Proprietario;
+import model.usuario.Usuario;
+import model.estacionamento.Vaga;
+import model.estacionamento.Veiculo;
+import model.usuario.Atendente;
+import model.usuario.NivelDeAcesso;
 
 public class Main {
-    
-    public static void main(String[] args) throws Exception{
-        
-        Veiculo v = new Veiculo();
-        Estadia e = new Estadia();
-        Vaga vg = new Vaga();
-        Proprietario p = new Proprietario();
-        EstadiaDao dao = new EstadiaDao();
-        
-        
-        p.setNome("Arsenio");
-        p.setEndereco("Matola");
-        p.setContacto("88888");
-       
-        v.setMarca("Toyota");
-        v.setModelo("Corollla");
-        v.setProprietario(p);
-        v.setMatricula("ADM-123");
-        
-        vg.setId(1);
-        vg.setEndereco("aaaaaaa");
 
-        e.setVaga(vg);
-        
-//            e.registrarEntrada(v);
-            //e.registrarSaida();
-        
-        dao.registrarSaida(4);
-        
-        
+    public static void main(String[] args) throws Exception {
+//        Proprietario p = new Proprietario();
+//        p.setNome("Arsenio");
+//        p.setEndereco("Matola");
+//        p.setContacto("88888");
+////
+//        Veiculo v = new Veiculo();
+//        v.setMarca("Toyota");
+//        v.setModelo("Corola");
+//        v.setMatricula("ADM-123");
+//        v.setProprietario(p);
+//
+//        Vaga vg = new Vaga();
+//        vg.setEndereco("aaaaaaa");
+//        
+//        Atendente a = new Atendente();
+//        a.setNome("carla");
+////
+//        System.out.println(a);
+//        Estadia e = new Estadia(a);
+//
+//        e.registrarEntrada(v, vg);
+//        e.registrarSaida();
+//
+//        EstadiaDao dao = new EstadiaDao();
+//        dao.inserir(e);
+
+//        VagaDao dao = new VagaDao();
+//        List<Vaga> vagas = dao.pesquisarPorDisponibilidade(Disponibilidade.DISPONIVEL);
+//        System.out.println(vagas);
+            
+           UsuarioDao udao = new UsuarioDao();
+           
+//           List<Usuario> usuarios = udao.listar();
+           
+           Usuario u = udao.pesquisarPorNomeESenha("carla", "1111");
+           
+           System.out.println(u);
     }
 }

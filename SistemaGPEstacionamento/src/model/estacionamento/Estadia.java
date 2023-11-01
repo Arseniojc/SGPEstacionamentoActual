@@ -1,9 +1,7 @@
-
-package model;
+package model.estacionamento;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,25 +9,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import model.usuario.Atendente;
 
 @Entity
-@Table(name = "Estadia")
+@Table(name = "estadias")
 public class Estadia {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDate data; 
-    @Temporal(TemporalType.TIME)
-    private Date horaEntrada;
-    @Temporal(TemporalType.TIME)
-    private Date horaSaida;
+    private LocalTime horaEntrada;
+    private LocalTime horaSaida;
     @ManyToOne(cascade = CascadeType.ALL)
     private Veiculo veiculo;
     @ManyToOne(cascade = CascadeType.ALL)
     private Vaga vaga;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Atendente atendente;
+
+    public Estadia() {}
+
+    public Estadia(Atendente atendente) {
+        this.atendente = atendente;
+    }
 
     public int getId() {
         return id;
@@ -47,25 +49,20 @@ public class Estadia {
         this.data = data;
     }
 
-    public Date getHoraEntrada() {
+    public LocalTime getHoraEntrada() {
         return horaEntrada;
     }
 
-    public void setHoraEntrada(Date horaEntrada) {
+    public void setHoraEntrada(LocalTime horaEntrada) {
         this.horaEntrada = horaEntrada;
     }
 
-    public Date getHoraSaida() {
+    public LocalTime getHoraSaida() {
         return horaSaida;
     }
 
-    public void setHoraSaida(Date horaSaida) {
+    public void setHoraSaida(LocalTime horaSaida) {
         this.horaSaida = horaSaida;
-    }
-
-
-    public Veiculo getVeiculo() {
-        return veiculo;
     }
 
     public void setVeiculo(Veiculo veiculo) {
@@ -76,18 +73,28 @@ public class Estadia {
         return vaga;
     }
 
-    public void setVaga(Vaga vaga) {
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public Atendente getAtendente() {
+        return atendente;
+    }
+    
+    public void registrarEntrada(Veiculo veiculo, Vaga vaga){
+        this.setVeiculo(veiculo);
+        this.data = LocalDate.now();
+        this.setHoraEntrada(LocalTime.now());
         this.vaga = vaga;
     }
     
-    public void registrarEntrada(Veiculo veiculo){
-        this.setVeiculo(veiculo);
-        this.data = LocalDate.now();
-        this.setHoraEntrada(new Date());
-    }
-    
     public void registrarSaida() {
-        this.setHoraSaida(new Date());
+        this.setHoraSaida(LocalTime.now());
+        vaga.liberarVaga();
     }
-    
+
+    @Override
+    public String toString() {
+        return "Estadia{" + "id=" + id + ", data=" + data + ", horaEntrada=" + horaEntrada + ", horaSaida=" + horaSaida + ", veiculo=" + veiculo + ", vaga=" + vaga + '}';
+    }
 }

@@ -1,14 +1,16 @@
-package dao;
+package dao.usuario;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import model.Usuario;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import model.usuario.Usuario;
 
 public class UsuarioDao {
-    
     private EntityManager em;
     private EntityManagerFactory emf;
     
@@ -17,7 +19,7 @@ public class UsuarioDao {
         em = emf.createEntityManager();
     }
     
-    public void inserir(Usuario usuario){
+    public void inserir(Usuario usuario) {
         try {
             em.getTransaction().begin();
             em.persist(usuario);
@@ -37,13 +39,6 @@ public class UsuarioDao {
         return query.getResultList();
     }
     
-    public void listarUsuario(){
-        
-        for(Usuario usuarios: listar()){
-            System.out.println("Marca: " + usuarios.getNomeUsuario() );
-        }
-    }
-    
     public void actualizar(Usuario usuario) throws Exception{
         try {
             em.getTransaction().begin();
@@ -54,11 +49,11 @@ public class UsuarioDao {
             throw new Exception("Erro na actualizacao de dados");
         } finally {
             em.close();
+            emf.close();
         }
     }
     
-    public Usuario pesquisar(int id) throws Exception{
-        
+    public Usuario pesquisar(int id) throws Exception {
         Usuario usuario = null;
         
         try {
@@ -66,17 +61,38 @@ public class UsuarioDao {
         } catch (Exception e) {
             throw new Exception("Nao foi localizado um veiculo com o ID informado");
         } finally {
+            em.close();
+            emf.close();
         }
+        
         return usuario;
     }
     
-    public void deletar(int id) throws Exception{
+    public Usuario pesquisarPorNomeESenha(String nome, String senha) throws Exception {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
+        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+        
+        criteriaQuery.select(root).where(
+                        criteriaBuilder.equal(root.get("nome"), nome)
+        );
+        
+        em.getTransaction().begin();
+        
+        Usuario usuario = em.createQuery(criteriaQuery).getSingleResult();
+        
+        em.close();
+        emf.close();
+        
+        return usuario;
+    }
+    
+    public void deletar(int id) throws Exception {
         try {
             em.getTransaction().begin();
             Usuario usuario = em.find(Usuario.class, id);
             
             System.out.println(usuario);
-            
             
             usuario.setEstado(false);
             em.merge(usuario);
@@ -85,9 +101,7 @@ public class UsuarioDao {
             throw new Exception("Erro na eliminacao do Usuario");
         } finally {
             em.close();
+            emf.close();
         }
     }
-    
-    
-    
 }

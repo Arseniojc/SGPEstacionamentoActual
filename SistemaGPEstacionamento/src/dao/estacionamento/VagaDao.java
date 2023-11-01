@@ -1,14 +1,18 @@
-package dao;
+package dao.estacionamento;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import model.Vaga;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import model.estacionamento.Disponibilidade;
+import model.estacionamento.Vaga;
+import model.Vaga_;
 
 public class VagaDao {
-    
     private EntityManager em;
     private EntityManagerFactory emf;
     
@@ -37,13 +41,6 @@ public class VagaDao {
         return query.getResultList();
     }
     
-    public void listarVaga(){
-        
-        for(Vaga vaga: listar()){
-            System.out.println("Marca: " + vaga.getEndereco() );
-        }
-    }
-    
     public void actualizar(Vaga vaga) throws Exception{
         try {
             em.getTransaction().begin();
@@ -54,11 +51,11 @@ public class VagaDao {
             throw new Exception("Erro na actualizacao de dados");
         } finally {
             em.close();
+            emf.close();
         }
     }
     
     public Vaga pesquisar(int id) throws Exception{
-        
         Vaga vaga = null;
         
         try {
@@ -66,21 +63,27 @@ public class VagaDao {
         } catch (Exception e) {
             throw new Exception("Nao foi localizado um vaga com o ID informado");
         } finally {
+            em.close();
+            emf.close();
         }
+        
         return vaga;
     }
     
-    public void deletar(int id) throws Exception{
-        try {
-            em.getTransaction().begin();
-            Vaga vaga = em.find(Vaga.class, id);
-            vaga.setEstado(false);
-            em.merge(vaga);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            throw new Exception("Erro na eliminacao do Vaga");
-        } finally {
-            em.close();
-        }
+    public List<Vaga> pesquisarPorDisponibilidade(Disponibilidade disponibilidade) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Vaga> criteriaQuery = criteriaBuilder.createQuery(Vaga.class);
+        Root<Vaga> root = criteriaQuery.from(Vaga.class);
+        
+        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(Vaga_.disponibilidade), disponibilidade.valor));
+        
+        em.getTransaction().begin();
+        
+        List<Vaga> vagasDisponiveis = em.createQuery(criteriaQuery).getResultList();
+        
+        em.close();
+        emf.close();
+        
+        return vagasDisponiveis;
     }
 }
