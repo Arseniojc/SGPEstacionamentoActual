@@ -8,7 +8,6 @@ import javax.persistence.Query;
 import model.estacionamento.Estadia;
 
 public class EstadiaDao {
-    
     private EntityManager em;
     private EntityManagerFactory emf;
     
