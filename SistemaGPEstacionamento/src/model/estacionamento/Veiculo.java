@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "veiculos") 
 public class Veiculo {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -73,6 +72,9 @@ public class Veiculo {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Veiculo{" + "id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", matricula=" + matricula + ", proprietario=" + proprietario + ", estado=" + estado + '}';
+    }
 }
