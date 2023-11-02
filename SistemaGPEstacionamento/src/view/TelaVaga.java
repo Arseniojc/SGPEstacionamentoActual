@@ -27,11 +27,10 @@ public class TelaVaga extends javax.swing.JFrame {
         initComponents();
     }
 
-<<<<<<< HEAD
+
     List<Vaga> listaVagas = new ArrayList<>();
-=======
+
     
->>>>>>> 708b5ef303e363527dd79cf4b9df21e294061e50
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,6 +74,11 @@ public class TelaVaga extends javax.swing.JFrame {
         btnIndisponibilizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnIndisponibilizar.setForeground(new java.awt.Color(255, 255, 255));
         btnIndisponibilizar.setText("Indisponibilizar");
+        btnIndisponibilizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIndisponibilizarActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setBackground(new java.awt.Color(102, 153, 255));
         btnSalvar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -118,6 +122,11 @@ public class TelaVaga extends javax.swing.JFrame {
                 "ID", "Endereço", "Disponibilidade"
             }
         ));
+        tabelaVagas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaVagasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaVagas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -174,10 +183,11 @@ public class TelaVaga extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-<<<<<<< HEAD
+
     
         Vaga vaga = new Vaga();
         VagaDao dao = new VagaDao();
@@ -186,13 +196,26 @@ public class TelaVaga extends javax.swing.JFrame {
         listaVagas.add(vaga);
         dao.inserir(vaga);
         adicionarTabela();
-=======
-        Vaga vaga = new Vaga();
-        String endereco = txtEndereco.getText();
-        vaga.setEndereco(endereco);
-        dao.inserir(vaga);
->>>>>>> 708b5ef303e363527dd79cf4b9df21e294061e50
+
+     
+
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnIndisponibilizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndisponibilizarActionPerformed
+
+        Vaga vaga = new Vaga();
+        
+        if(tabelaVagas.getSelectedRow() != -1){
+            tabelaVagas.setValueAt("Indisponivel",tabelaVagas.getSelectedRow() ,2);
+        }
+    }//GEN-LAST:event_btnIndisponibilizarActionPerformed
+
+    private void tabelaVagasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaVagasMouseClicked
+
+        if(tabelaVagas.getSelectedRow() != -1){
+            txtEndereco.setText(tabelaVagas.getValueAt(tabelaVagas.getSelectedRow(), 1).toString());
+        }
+    }//GEN-LAST:event_tabelaVagasMouseClicked
 
     public JButton getBtnIndisponibilizar() {
         return btnIndisponibilizar;

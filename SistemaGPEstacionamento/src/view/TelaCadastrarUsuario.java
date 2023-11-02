@@ -16,6 +16,7 @@ public class TelaCadastrarUsuario extends javax.swing.JFrame {
     public TelaCadastrarUsuario() {
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -151,6 +152,7 @@ public class TelaCadastrarUsuario extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

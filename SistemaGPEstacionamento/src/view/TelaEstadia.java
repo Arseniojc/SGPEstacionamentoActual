@@ -4,8 +4,11 @@
  */
 package view;
 
+import dao.estacionamento.EstadiaDao;
 import dao.estacionamento.ProprientarioDao;
 import dao.estacionamento.VeiculoDao;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -75,9 +78,9 @@ public class TelaEstadia extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCadastrar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnSaida = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
@@ -359,20 +362,25 @@ public class TelaEstadia extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jButton1.setBackground(new java.awt.Color(102, 153, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("jButton1");
+        btnCadastrar.setBackground(new java.awt.Color(102, 153, 255));
+        btnCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCadastrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(102, 153, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("jButton2");
+        btnActualizar.setBackground(new java.awt.Color(102, 153, 255));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setText("Actualizar");
 
-        jButton3.setBackground(new java.awt.Color(102, 153, 255));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("jButton3");
+        btnSaida.setBackground(new java.awt.Color(102, 153, 255));
+        btnSaida.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSaida.setForeground(new java.awt.Color(255, 255, 255));
+        btnSaida.setText("Saida");
 
         jButton4.setBackground(new java.awt.Color(102, 153, 255));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -385,11 +393,11 @@ public class TelaEstadia extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addComponent(jButton1)
+                .addComponent(btnCadastrar)
                 .addGap(82, 82, 82)
-                .addComponent(jButton2)
+                .addComponent(btnActualizar)
                 .addGap(76, 76, 76)
-                .addComponent(jButton3)
+                .addComponent(btnSaida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(46, 46, 46))
@@ -399,22 +407,22 @@ public class TelaEstadia extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
+                    .addComponent(btnCadastrar)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnSaida)
                     .addComponent(jButton4))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Data", "Hora de Entrada", "Hora de Saida", "Atendente", "ID Vaga", "ID Veiculo", "Valor a Pagar"
             }
         ));
         jScrollPane5.setViewportView(jTable5);
@@ -437,7 +445,7 @@ public class TelaEstadia extends javax.swing.JFrame {
                                 .addComponent(jLabel12))
                             .addComponent(jLabel13)))
                     .addComponent(jScrollPane5))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -497,6 +505,7 @@ public class TelaEstadia extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
@@ -532,6 +541,11 @@ public class TelaEstadia extends javax.swing.JFrame {
         daoV.inserir(veiculo);
         adicionarTabelaVeiculo();
     }//GEN-LAST:event_btnConfirmarVeiculoActionPerformed
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+
+       cadastrarEstadia();
+    }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -570,11 +584,11 @@ public class TelaEstadia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnConfirmarPropri;
     private javax.swing.JButton btnConfirmarVeiculo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnSaida;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -646,4 +660,35 @@ public class TelaEstadia extends javax.swing.JFrame {
                 });
             });
         }
+    
+    public void cadastrarEstadia(){
+        
+        Proprietario proprietario = new Proprietario();
+        Veiculo veiculo = new Veiculo();
+        Estadia estadia = new Estadia();
+        
+        EstadiaDao dao = new EstadiaDao();
+        
+        //Proprietario      
+        proprietario.setNome(txtNome.getText());
+        proprietario.setContacto(txtContacto.getText());
+        proprietario.setEndereco(txtEndereco.getText());
+        listaProprietarios.add(proprietario);
+        
+        // Veiculo
+        veiculo.setMarca(txtMarca.getText());
+        veiculo.setModelo(txtModelo.getText());
+        veiculo.setMatricula(txtMatricula.getText());
+        //veiculo.setProprietario();
+        listaVeiculos.add(veiculo);
+        
+        
+        //Estadia
+        estadia.setVeiculo(veiculo);
+        estadia.setData(LocalDate.MAX);
+        estadia.setHoraEntrada(LocalTime.NOON);
+        
+        dao.inserir(estadia);
+        
+    }
 }

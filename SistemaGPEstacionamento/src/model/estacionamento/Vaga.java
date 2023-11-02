@@ -18,6 +18,10 @@ public class Vaga {
     public Vaga(){
         liberarVaga();
     }
+
+    public void setDisponibilidade(String disponibilidade) {
+        this.disponibilidade = disponibilidade;
+    }
     
     public int getId() {
         return id;
