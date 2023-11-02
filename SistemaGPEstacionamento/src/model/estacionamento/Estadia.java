@@ -24,8 +24,8 @@ public class Estadia {
     private Veiculo veiculo;
     @ManyToOne(cascade = CascadeType.ALL)
     private Vaga vaga;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Atendente atendente;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Atendente atendente;
     private float preco;
 
     public Estadia() {}

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class Proprietario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String nome;
     private String contacto;
     private String endereco;
@@ -24,7 +24,7 @@ public class Proprietario {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

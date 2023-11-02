@@ -4,7 +4,6 @@
  */
 package view;
 
-
 import dao.estacionamento.VagaDao;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import model.estacionamento.Disponibilidade;
 import model.estacionamento.Vaga;
 
 /**
@@ -19,18 +19,22 @@ import model.estacionamento.Vaga;
  * @author Arsenio-JC
  */
 public class TelaVaga extends javax.swing.JFrame {
+
     VagaDao dao = new VagaDao();
+
     /**
      * Creates new form TelaVaga
      */
     public TelaVaga() {
         initComponents();
+        List<Vaga> vagas = dao.pesquisarComBaseNaDisponibilidade(Disponibilidade.DISPONIVEL);
+        
+        listaVagas = vagas;
+        adicionarTabela();
     }
-
 
     List<Vaga> listaVagas = new ArrayList<>();
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -126,6 +130,9 @@ public class TelaVaga extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelaVagasMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tabelaVagasMouseEntered(evt);
+            }
         });
         jScrollPane1.setViewportView(tabelaVagas);
 
@@ -188,34 +195,38 @@ public class TelaVaga extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-    
         Vaga vaga = new Vaga();
         VagaDao dao = new VagaDao();
-        
+
         vaga.setEndereco(txtEndereco.getText());
         listaVagas.add(vaga);
         dao.inserir(vaga);
         adicionarTabela();
-
-     
+           txtEndereco.setText("");
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnIndisponibilizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndisponibilizarActionPerformed
 
         Vaga vaga = new Vaga();
-        
-        if(tabelaVagas.getSelectedRow() != -1){
-            tabelaVagas.setValueAt("Indisponivel",tabelaVagas.getSelectedRow() ,2);
+
+        if (tabelaVagas.getSelectedRow() != -1) {
+            tabelaVagas.setValueAt("Indisponivel", tabelaVagas.getSelectedRow(), 2);
         }
     }//GEN-LAST:event_btnIndisponibilizarActionPerformed
 
     private void tabelaVagasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaVagasMouseClicked
 
-        if(tabelaVagas.getSelectedRow() != -1){
-            txtEndereco.setText(tabelaVagas.getValueAt(tabelaVagas.getSelectedRow(), 1).toString());
+        if (tabelaVagas.getSelectedRow() != -1) {
+            String data =  tabelaVagas.getValueAt(tabelaVagas.getSelectedRow(), 1).toString();
+            
+            System.out.println(data);
         }
     }//GEN-LAST:event_tabelaVagasMouseClicked
+
+    private void tabelaVagasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaVagasMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaVagasMouseEntered
 
     public JButton getBtnIndisponibilizar() {
         return btnIndisponibilizar;
@@ -297,18 +308,15 @@ public class TelaVaga extends javax.swing.JFrame {
     private javax.swing.JTextField txtEndereco;
     // End of variables declaration//GEN-END:variables
 
+    private void adicionarTabela() {
 
-    private void adicionarTabela(){
-            
-            DefaultTableModel modelo = (DefaultTableModel)tabelaVagas.getModel();
-            modelo.setRowCount(0);
-            listaVagas.forEach(e->{
-                    modelo.addRow(new Object[]{
-                    e.getId(),
-                    e.getEndereco(),
-                    e.getDisponibilidade(),
-                  
-                });
-            });
-        }
+        DefaultTableModel modelo = (DefaultTableModel) tabelaVagas.getModel();
+        modelo.setRowCount(0);
+        listaVagas.forEach(e -> {
+            modelo.addRow(new Object[]{
+                e.getId(),
+                e.getEndereco(),
+                e.getDisponibilidade(),});
+        });
+    }
 }

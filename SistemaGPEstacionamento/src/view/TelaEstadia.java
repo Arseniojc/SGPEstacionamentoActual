@@ -6,32 +6,51 @@ package view;
 
 import dao.estacionamento.EstadiaDao;
 import dao.estacionamento.ProprientarioDao;
+import dao.estacionamento.VagaDao;
 import dao.estacionamento.VeiculoDao;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import model.estacionamento.Disponibilidade;
 import model.estacionamento.Estadia;
 import model.estacionamento.Proprietario;
+import model.estacionamento.Vaga;
 import model.estacionamento.Veiculo;
+import model.usuario.Atendente;
 
 /**
  *
  * @author Arsenio-JC
  */
 public class TelaEstadia extends javax.swing.JFrame {
-
+    ProprientarioDao ProprientarioDao = new ProprientarioDao();
+    VeiculoDao veiculoDao = new VeiculoDao();
+    Proprietario proprietario = new Proprietario();
+    Veiculo veiculo = new Veiculo();
+    VagaDao vagaDao = new VagaDao();
+    Vaga vaga = new Vaga();
+    EstadiaDao estadiaDao = new EstadiaDao();
+    
     /**
      * Creates new form TabledPainel
      */
     public TelaEstadia() {
         initComponents();
+        
+        listaProprietarios = ProprientarioDao.listar();
+        listaVeiculos = veiculoDao.listar();
+        listaVagas = vagaDao.pesquisarComBaseNaDisponibilidade(Disponibilidade.DISPONIVEL);
+
+        adicionarTabelaProprietario();
+        adicionarTabelaVeiculo();
+        adicionarTabelaVagas();
     }
 
     List<Proprietario> listaProprietarios = new ArrayList<>();
     List<Veiculo> listaVeiculos = new ArrayList<>();
-    List<Estadia> listaEstadia = new ArrayList<>();
+    List<Vaga> listaVagas = new ArrayList<>();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,7 +102,7 @@ public class TelaEstadia extends javax.swing.JFrame {
         btnSaida = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        tabelaVagasDisponiveis = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
 
         jRadioButton1.setText("jRadioButton1");
@@ -207,7 +226,7 @@ public class TelaEstadia extends javax.swing.JFrame {
                             .addComponent(txtContacto)
                             .addComponent(txtEndereco)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +250,7 @@ public class TelaEstadia extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados do Proprietario", jPanel3);
@@ -314,7 +333,7 @@ public class TelaEstadia extends javax.swing.JFrame {
                             .addComponent(txtModelo)
                             .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane4))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,7 +357,7 @@ public class TelaEstadia extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados do Veiculo", jPanel4);
@@ -414,18 +433,31 @@ public class TelaEstadia extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaVagasDisponiveis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID", "Data", "Hora de Entrada", "Hora de Saida", "Atendente", "ID Vaga", "ID Veiculo", "Valor a Pagar"
+                "id", "endereco", "disponibilidade"
             }
-        ));
-        jScrollPane5.setViewportView(jTable5);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tabelaVagasDisponiveis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaVagasDisponiveisMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tabelaVagasDisponiveis);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -445,7 +477,7 @@ public class TelaEstadia extends javax.swing.JFrame {
                                 .addComponent(jLabel12))
                             .addComponent(jLabel13)))
                     .addComponent(jScrollPane5))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -463,7 +495,7 @@ public class TelaEstadia extends javax.swing.JFrame {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Estadia", jPanel2);
@@ -478,30 +510,40 @@ public class TelaEstadia extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -513,39 +555,40 @@ public class TelaEstadia extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void btnConfirmarPropriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarPropriActionPerformed
-        
-        Proprietario proprietario = new Proprietario();
-        ProprientarioDao daoP = new ProprientarioDao();
-        
+        Integer id = null;
+        proprietario.setId(id);
         proprietario.setNome(txtNome.getText());
         proprietario.setContacto(txtContacto.getText());
         proprietario.setEndereco(txtEndereco.getText());
-        listaProprietarios.add(proprietario);
-        
-        daoP.inserir(proprietario);
-        adicionarTabelaProprietario();
     }//GEN-LAST:event_btnConfirmarPropriActionPerformed
 
     private void btnConfirmarVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarVeiculoActionPerformed
 
-        Veiculo veiculo = new Veiculo();
-        VeiculoDao daoV = new VeiculoDao();
-        
-        
+        Integer id = null;
+        veiculo.setId(id);
         veiculo.setMarca(txtMarca.getText());
         veiculo.setModelo(txtModelo.getText());
         veiculo.setMatricula(txtMatricula.getText());
-        //veiculo.setProprietario();
-        listaVeiculos.add(veiculo);
-        
-        daoV.inserir(veiculo);
-        adicionarTabelaVeiculo();
+        veiculo.setProprietario(proprietario);
     }//GEN-LAST:event_btnConfirmarVeiculoActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
 
        cadastrarEstadia();
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void tabelaVagasDisponiveisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaVagasDisponiveisMouseClicked
+                
+        if (tabelaVagasDisponiveis.getSelectedRow() != -1) {
+            String endereco =  tabelaVagasDisponiveis.getValueAt(tabelaVagasDisponiveis.getSelectedRow(), 1).toString();
+             String id =  tabelaVagasDisponiveis.getValueAt(tabelaVagasDisponiveis.getSelectedRow(), 0).toString();
+             String dispinibilidade =  tabelaVagasDisponiveis.getValueAt(tabelaVagasDisponiveis.getSelectedRow(), 2).toString();
+            
+             vaga.setId(Integer.parseInt(id));
+             vaga.setEndereco(endereco);
+             vaga.setDisponibilidade(dispinibilidade);
+        }
+    }//GEN-LAST:event_tabelaVagasDisponiveisMouseClicked
 
     /**
      * @param args the command line arguments
@@ -619,8 +662,8 @@ public class TelaEstadia extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTable tabelaProprietario;
+    private javax.swing.JTable tabelaVagasDisponiveis;
     private javax.swing.JTable tabelaVeiculo;
     private javax.swing.JTextField txtContacto;
     private javax.swing.JTextField txtEndereco;
@@ -663,32 +706,20 @@ public class TelaEstadia extends javax.swing.JFrame {
     
     public void cadastrarEstadia(){
         
-        Proprietario proprietario = new Proprietario();
-        Veiculo veiculo = new Veiculo();
         Estadia estadia = new Estadia();
+        estadia.registrarEntrada(veiculo, vaga);
+        estadiaDao.inserir(estadia);
         
-        EstadiaDao dao = new EstadiaDao();
-        
-        //Proprietario      
-        proprietario.setNome(txtNome.getText());
-        proprietario.setContacto(txtContacto.getText());
-        proprietario.setEndereco(txtEndereco.getText());
-        listaProprietarios.add(proprietario);
-        
-        // Veiculo
-        veiculo.setMarca(txtMarca.getText());
-        veiculo.setModelo(txtModelo.getText());
-        veiculo.setMatricula(txtMatricula.getText());
-        //veiculo.setProprietario();
-        listaVeiculos.add(veiculo);
-        
-        
-        //Estadia
-        estadia.setVeiculo(veiculo);
-        estadia.setData(LocalDate.MAX);
-        estadia.setHoraEntrada(LocalTime.NOON);
-        
-        dao.inserir(estadia);
-        
+    }
+    
+    private void adicionarTabelaVagas() {
+        DefaultTableModel modelo = (DefaultTableModel) tabelaVagasDisponiveis.getModel();
+        modelo.setRowCount(0);
+        listaVagas.forEach(e -> {
+            modelo.addRow(new Object[]{
+                e.getId(),
+                e.getEndereco(),
+                e.getDisponibilidade(),});
+        });
     }
 }

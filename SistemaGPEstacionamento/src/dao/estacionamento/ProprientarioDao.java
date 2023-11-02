@@ -34,7 +34,7 @@ public class ProprientarioDao {
     
     public List<Proprietario> listar(){
         em.getTransaction().begin();
-        String jpql = "SELECT v FROM Veiculo v";
+        String jpql = "SELECT v FROM Proprietario v";
         Query query = em.createQuery(jpql);
         return query.getResultList();
     }

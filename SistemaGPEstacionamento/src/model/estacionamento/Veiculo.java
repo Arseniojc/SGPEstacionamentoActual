@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String marca;
     private String modelo;
     private String matricula;
@@ -29,7 +29,7 @@ public class Veiculo {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -10,7 +10,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.estacionamento.Disponibilidade;
 import model.estacionamento.Vaga;
-import model.Vaga_;
 
 public class VagaDao {
     private EntityManager em;
@@ -69,7 +68,7 @@ public class VagaDao {
         CriteriaQuery<Vaga> criteriaQuery = criteriaBuilder.createQuery(Vaga.class);
         Root<Vaga> root = criteriaQuery.from(Vaga.class);
         
-        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(Vaga_.disponibilidade), disponibilidade.valor));
+        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("disponibilidade"), disponibilidade.valor));
         
         em.getTransaction().begin();
         
