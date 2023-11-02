@@ -6,9 +6,12 @@ package view;
 
 
 import dao.estacionamento.VagaDao;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import model.estacionamento.Vaga;
 
 /**
@@ -24,8 +27,7 @@ public class TelaVaga extends javax.swing.JFrame {
         initComponents();
     }
 
-    VagaDao dao = new VagaDao();
-    Vaga vaga = new Vaga();
+    List<Vaga> listaVagas = new ArrayList<>();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,13 +105,13 @@ public class TelaVaga extends javax.swing.JFrame {
 
         tabelaVagas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Endereço", "Disponibilidade"
             }
         ));
         jScrollPane1.setViewportView(tabelaVagas);
@@ -171,13 +173,14 @@ public class TelaVaga extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        String endereco = txtEndereco.getText();
-        vaga.setEndereco(endereco);
+    
+        Vaga vaga = new Vaga();
+        VagaDao dao = new VagaDao();
         
-        
+        vaga.setEndereco(txtEndereco.getText());
+        listaVagas.add(vaga);
         dao.inserir(vaga);
-        
-        
+        adicionarTabela();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     public JButton getBtnIndisponibilizar() {
@@ -259,4 +262,19 @@ public class TelaVaga extends javax.swing.JFrame {
     private javax.swing.JTable tabelaVagas;
     private javax.swing.JTextField txtEndereco;
     // End of variables declaration//GEN-END:variables
+
+
+    private void adicionarTabela(){
+            
+            DefaultTableModel modelo = (DefaultTableModel)tabelaVagas.getModel();
+            modelo.setRowCount(0);
+            listaVagas.forEach(e->{
+                    modelo.addRow(new Object[]{
+                    e.getId(),
+                    e.getEndereco(),
+                    e.getDisponibilidade(),
+                  
+                });
+            });
+        }
 }

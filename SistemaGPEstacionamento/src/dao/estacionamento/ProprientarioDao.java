@@ -16,6 +16,19 @@ public class ProprientarioDao {
         em = emf.createEntityManager();
     }
     
+     public void inserir(Proprietario proprietario){
+        try {
+            em.getTransaction().begin();
+            em.persist(proprietario);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+            emf.close();
+        }
+    }
+    
     public List<Proprietario> listar(){
         em.getTransaction().begin();
         String jpql = "SELECT v FROM Veiculo v";

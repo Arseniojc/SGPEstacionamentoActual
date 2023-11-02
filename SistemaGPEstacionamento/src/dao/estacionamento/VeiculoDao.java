@@ -16,6 +16,19 @@ public class VeiculoDao {
         em = emf.createEntityManager();
     }
     
+    public void inserir(Veiculo veiculo){
+        try {
+            em.getTransaction().begin();
+            em.persist(veiculo);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+            emf.close();
+        }
+    }
+    
     public List<Veiculo> listar() {
         em.getTransaction().begin();
         String jpql = "SELECT v FROM Veiculo v";
