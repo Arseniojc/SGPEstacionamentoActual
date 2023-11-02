@@ -3,8 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+            <file>file:/C:/Users/Arsenio-JC/Documents/GitHub/SGPEstacionamentoActual/SistemaGPEstacionamento/src/view/TelaVaga.java</file>
+>>>>>>> 708b5ef303e363527dd79cf4b9df21e294061e50
             <file>file:/C:/Users/Arsenio-JC/Documents/GitHub/SGPEstacionamentoActual/SistemaGPEstacionamento/src/view/TelaEstadia.java</file>
             <file>file:/C:/Users/Arsenio-JC/Documents/GitHub/SGPEstacionamentoActual/SistemaGPEstacionamento/src/view/TelaCadastrarUsuario.java</file>
+<<<<<<< HEAD
+=======
+            <file>file:/C:/Users/Arsenio-JC/Documents/GitHub/SGPEstacionamentoActual/SistemaGPEstacionamento/src/model/estacionamento/Estadia.java</file>
+=======
+            <file>file:/D:/development/back/java/projects/uem/SGPEstacionamentoActual/SistemaGPEstacionamento/src/dao/estacionamento/VagaDao.java</file>
+            <file>file:/D:/development/back/java/projects/uem/SGPEstacionamentoActual/SistemaGPEstacionamento/src/model/estacionamento/Vaga.java</file>
+            <file>file:/D:/development/back/java/projects/uem/SGPEstacionamentoActual/SistemaGPEstacionamento/src/dao/estacionamento/EstadiaDao.java</file>
+            <file>file:/D:/development/back/java/projects/uem/SGPEstacionamentoActual/SistemaGPEstacionamento/src/dao/estacionamento/ProprientarioDao.java</file>
+            <file>file:/D:/development/back/java/projects/uem/SGPEstacionamentoActual/SistemaGPEstacionamento/src/Aplicacao/Main.java</file>
+>>>>>>> Stashed changes
+>>>>>>> 708b5ef303e363527dd79cf4b9df21e294061e50
         </group>
     </open-files>
 </project-private>

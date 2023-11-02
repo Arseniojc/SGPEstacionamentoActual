@@ -19,7 +19,7 @@ import model.estacionamento.Vaga;
  * @author Arsenio-JC
  */
 public class TelaVaga extends javax.swing.JFrame {
-
+    VagaDao dao = new VagaDao();
     /**
      * Creates new form TelaVaga
      */
@@ -27,7 +27,11 @@ public class TelaVaga extends javax.swing.JFrame {
         initComponents();
     }
 
+<<<<<<< HEAD
     List<Vaga> listaVagas = new ArrayList<>();
+=======
+    
+>>>>>>> 708b5ef303e363527dd79cf4b9df21e294061e50
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -173,6 +177,7 @@ public class TelaVaga extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+<<<<<<< HEAD
     
         Vaga vaga = new Vaga();
         VagaDao dao = new VagaDao();
@@ -181,6 +186,12 @@ public class TelaVaga extends javax.swing.JFrame {
         listaVagas.add(vaga);
         dao.inserir(vaga);
         adicionarTabela();
+=======
+        Vaga vaga = new Vaga();
+        String endereco = txtEndereco.getText();
+        vaga.setEndereco(endereco);
+        dao.inserir(vaga);
+>>>>>>> 708b5ef303e363527dd79cf4b9df21e294061e50
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     public JButton getBtnIndisponibilizar() {

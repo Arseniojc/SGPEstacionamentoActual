@@ -26,6 +26,7 @@ public class Estadia {
     private Vaga vaga;
     @ManyToOne(cascade = CascadeType.ALL)
     private Atendente atendente;
+    private float preco;
 
     public Estadia() {}
 
@@ -91,6 +92,14 @@ public class Estadia {
     public void registrarSaida() {
         this.setHoraSaida(LocalTime.now());
         vaga.liberarVaga();
+    }
+
+    public float getPreco() {
+        return preco;
+    }
+
+    public void setPreco(float preco) {
+        this.preco = preco;
     }
 
     @Override
